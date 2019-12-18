@@ -10,7 +10,7 @@ export default class UserDetail extends Component {
   render() {
     return (
       <View style={styles.MainContainer}>
-        <Text style={{ fontSize: 23 }}> Screen 2 </Text>
+        <Text style={{ fontSize: 23 }}> User Detail </Text>
       </View>
     );
   }

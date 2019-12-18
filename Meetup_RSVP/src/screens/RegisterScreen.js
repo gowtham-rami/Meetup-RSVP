@@ -1,29 +1,27 @@
 /*Screen to register the user*/
 import React, { Component } from 'react'
-import { StyleSheet, Button, View, Image,TextInput } from "react-native";
+import { StyleSheet, Button, View, TextInput } from "react-native";
 
 import { KeyboardAvoidingView } from "react-native";
 import { ScrollView } from "react-native-gesture-handler";
-//import { TextField } from "react-native-material-textfield";
 
-// import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
-
-// Text Input Focus Followed from the Below site
-// https://medium.com/reactnative/tabbing-through-input-fields-ef283f923ab1
 
 export default class RegisterScreen extends Component {
   constructor(props) {
     super(props);
     this.state = {
       user_name: "",
-      user_email_id: "",
-      user_pin: 0,
-      user_confirm_pin: 0,
+      user_age: 0,
+      user_DOB: "",
+      user_Locality: "",
+      no_Guests: 0,
+      user_address: "",
+
       isLoading: false,
     };
     this.focusNextField = this.focusNextField.bind(this);
     this.inputs = {};
-    
+
   }
 
   //focus to next Field
@@ -33,44 +31,53 @@ export default class RegisterScreen extends Component {
 
   register_user_validation = () => {
 
-    const login_status = 0;
     const { user_name } = this.state;
-    const { user_email_id } = this.state;
-    const { user_pin } = this.state;
-    const { user_confirm_pin } = this.state;
+    const { user_age } = this.state;
+    const { user_DOB } = this.state;
+    const { user_Locality } = this.state;
+    const { no_Guests } = this.state;
+    const { user_address } = this.state;
     //alert(user_name, user_contact, user_address);
     if (user_name) {
-      if (user_email_id) {
-        let reg = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
-        if (reg.test(user_email_id) === true) {
-          if (user_pin && user_pin.length == 4) {
-            if (user_confirm_pin && user_confirm_pin.length == 4) {
-              //Save it to Database
-              if (user_pin == user_confirm_pin) {
-                this.setState({ isLoading: true })
-                var pin = user_pin;
-                this.RegisterUser(user_name, user_email_id, pin, login_status);
-                console.log("Pin=" + pin);
-              } else {
-                //this.setState({isLoading: false})
-                alert("Pin and Confirm Pin doesn't Match");
+      if (user_age) {
+
+        if (user_DOB) {
+          if (user_Locality) {
+            //Save it to Database
+            if (no_Guests) {
+
+              if(no_Guests > 2){
+                alert("please enter no guests between 0-2");
+              }else{
+                if (user_address) {
+                 
+                  alert("registration sucessful");
+  
+                } else {
+                  alert("please enter address to proceed");
+  
+  
+                }
               }
+
+              
+
             } else {
               //this.setState({isLoading: false})
-              alert("Please Enter the Confirm Pin with four digits");
+              alert("please enter no guests between 0-2");
             }
           } else {
             //this.setState({isLoading: false})
-            alert("Please Enter the pin with four digits");
+            alert("Please Enter the Locality");
           }
         } else {
           //this.setState({isLoading: false})
-          alert("Please Enter the Valid Email Address");
-          return false;
+          alert("Please Enter D O B");
         }
+
       } else {
         //this.setState({isLoading: false})
-        alert("Please Enter the Email Address");
+        alert("Please Enter Age");
       }
     } else {
       //this.setState({isLoading: false})
@@ -78,71 +85,11 @@ export default class RegisterScreen extends Component {
     }
   };
 
-  // async RegisterUser(user_name, user_email_id, pin, login_status) {
-  //   isUserInfoTablePresent = await UserInformationTable.isUserInfoTablePresent();
-  //   if (isUserInfoTablePresent) {
-  //     isEmailPresent = await UserInformationTable.fetchUserByMail(user_email_id);
-  //     if (isEmailPresent == "") {
-  //       UserInfoInsert = await UserInformationTable.insertUserProfile(user_name, user_email_id, pin, login_status);
-  //       if (UserInfoInsert) {
-  //         this.setState({ isLoading: false })
-  //         //           Alert.alert("Registration Successful", "",
-  //         //             [{ text: "OK", onPress: this.onRegisterBTN }],
-  //         //             { cancelable: false });
-  //         this.onRegisterBTN();
-  //         // this.setState({isLoading: false});
-  //         this.setState.isLoading = false;
-  //         alert("Registration Successful", "",
-  //           [{ text: "OK", onPress: this.onRegisterBTN() }],
-  //           { cancelable: false });
-  //       } else {
-  //         this.setState({ isLoading: false });
-  //         alert("Please try again!");
-  //       }
-  //     } else {
-  //       this.setState({ isLoading: false });
-  //       alert("User email already exists");
-  //     }
-  //   } else {
-  //     createUserInfoTable = await UserInformationTable.createUserInfoTable();
-  //     createUserStatusTrigger = await UserInformationTable.createUserStatusTrigger();
-  //     UserInfoInsert = await UserInformationTable.insertUserProfile(user_name, user_email_id, pin, login_status);
-  //     if (UserInfoInsert) {
-  //       this.setState({ isLoading: false })
-  //       this.onRegisterBTN();
-  //       // Alert.alert(
-  //       //   "Added Successfully", "",
-  //       //   [{ text: "OK", onPress: this.onRegisterBTN }],
-  //       //   { cancelable: false }
-  //       // );
-
-  //       // this.onRegisterBTN();
-  //       alert(
-  //         "Added Successfully", "",
-  //         [{ text: "OK", onPress: this.onRegisterBTN() }],
-  //         { cancelable: false }
-  //       );
-  //     } else {
-  //       this.setState({ isLoading: false })
-  //       alert("Please try again!");
-  //     }
-  //   }
-  //   this.setState({ isLoading: false })
-  // }
-
-  onRegisterBTN = () => {
-    //Redirect to Home Screen
-    // this.props.navigation.state.params.RefreshList();
-    this.setState({ isLoading: false });
-    this.props.navigation.navigate("Login");
-
-    // this.props.navigation.goBack(null);
-  };
 
   render() {
     return (
       <View style={styles.container}>
-     
+
         <ScrollView
           keyboardShouldPersistTaps="handled"
           showsVerticalScrollIndicator={false}>
@@ -151,7 +98,7 @@ export default class RegisterScreen extends Component {
             style={{ flex: 1, justifyContent: "space-between" }}>
             <View style={styles.container}>
               <View style={styles.container}>
-                <TextInput style = {styles.inputText}
+                <TextInput style={styles.inputText}
                   placeholder="Name"
                   onChangeText={user_name => this.setState({ user_name })}
                   autoCapitalize="words"
@@ -164,13 +111,15 @@ export default class RegisterScreen extends Component {
                     this.inputs["one"] = input;
                   }}
                 />
-                <TextInput style = {styles.inputText}
+                <TextInput style={styles.inputText}
                   placeholder="age"
-                  onChangeText={user_email_id =>
-                    this.setState({ user_email_id })
+                  onChangeText={user_age =>
+                    this.setState({ user_age })
                   }
                   autoCapitalize="none"
+                  keyboardType="number-pad"
                   returnKeyType={"next"}
+                  maxLength={3}
                   blurOnSubmit={false}
                   onSubmitEditing={() => {
                     this.focusNextField("three");
@@ -180,11 +129,11 @@ export default class RegisterScreen extends Component {
                     this.inputs["two"] = input;
                   }}
                 />
-                <TextInput style = {styles.inputText}
+                <TextInput style={styles.inputText}
                   placeholder="D O B"
-                  keyboardType="number-pad"
-                  onChangeText={user_pin => this.setState({ user_pin })}
-                  maxLength={4}
+
+                  onChangeText={user_DOB => this.setState({ user_DOB })}
+
                   blurOnSubmit={false}
                   onSubmitEditing={() => {
                     this.focusNextField("four");
@@ -194,13 +143,12 @@ export default class RegisterScreen extends Component {
                     this.inputs["three"] = input;
                   }}
                 />
-                <TextInput style = {styles.inputText}
+                <TextInput style={styles.inputText}
                   placeholder="Locality"
                   autoCapitalize="none"
-                  keyboardType="number-pad"
-                  maxLength={4}
-                  onChangeText={user_confirm_pin =>
-                    this.setState({ user_confirm_pin })
+
+                  onChangeText={user_Locality =>
+                    this.setState({ user_Locality })
                   }
                   blurOnSubmit={true}
                   returnKeyType={"next"}
@@ -208,13 +156,13 @@ export default class RegisterScreen extends Component {
                     this.inputs["four"] = input;
                   }}
                 />
-                <TextInput style = {styles.inputText}
+                <TextInput style={styles.inputText}
                   placeholder="No of guests"
                   autoCapitalize="none"
                   keyboardType="number-pad"
-                  maxLength={4}
-                  onChangeText={user_confirm_pin =>
-                    this.setState({ user_confirm_pin })
+                  maxLength={1}
+                  onChangeText={no_Guests =>
+                    this.setState({ no_Guests })
                   }
                   blurOnSubmit={true}
                   returnKeyType={"next"}
@@ -222,13 +170,13 @@ export default class RegisterScreen extends Component {
                     this.inputs["five"] = input;
                   }}
                 />
-                <TextInput style = {styles.inputText}
+                <TextInput style={styles.AddressinputText}
                   placeholder="Address"
                   autoCapitalize="none"
-                  keyboardType="number-pad"
-                  maxLength={4}
-                  onChangeText={user_confirm_pin =>
-                    this.setState({ user_confirm_pin })
+                  maxLength={50}
+                  multiline={true}
+                  onChangeText={user_address =>
+                    this.setState({ user_address })
                   }
                   blurOnSubmit={true}
                   returnKeyType={"done"}
@@ -238,44 +186,7 @@ export default class RegisterScreen extends Component {
                 />
               </View>
 
-              {/* <TextInput
-              style={styles.inputText}
-              placeholder="Enter the UserName"
-              onChangeText={user_name => this.setState({ user_name })}
-            />
-            <TextInput
-              style={styles.inputText}
-              placeholder="Enter the Email-ID"
-              onChangeText={user_email_id => this.setState({ user_email_id })}
-            />
-            <TextInput
-              style={styles.inputText}
-              placeholder="Enter the Pin"
-              autoCapitalize="none"
-              keyboardType="number-pad"
-              returnKeyType="done"
-              onChangeText={user_pin => this.setState({ user_pin })}
-              maxLength={4}
-            />
-            <TextInput
-              style={styles.inputText}
-              placeholder="Enter the Confirm Pin"
-              autoCapitalize="none"
-              keyboardType="number-pad"
-              returnKeyType="done"
-              maxLength={4}
-              onChangeText={user_confirm_pin =>
-                this.setState({ user_confirm_pin })
-              }
-            /> */}
-
-
-              {/* {
-        this.state.isLoading ?  <ActivityIndicator style={{}}
-        size="large" color="green" /> : null
-      } */}
-
-              <View style={styles.button_container}>
+              <View>
                 <Button
                   onPress={() => this.register_user_validation()}
                   title="Register"
@@ -296,32 +207,25 @@ const styles = StyleSheet.create({
   container: {
     margin: 20,
     marginTop: 10,
-    padding : 20,
+
   },
   inputText: {
-    marginTop: 20,
-    marginBottom: 20,
+    marginTop: 15,
+    marginBottom: 15,
+    marginLeft: 15,
+    marginRight: 15,
     height: 50,
-    width:200,
-    alignItems: "center",
     borderColor: "#808080",
     borderWidth: 2
   },
-  image_container: {
-    margin: 10,
-    alignItems: "center",
-    justifyContent: "center"
+  AddressinputText: {
+    marginTop: 15,
+    marginBottom: 15,
+    marginLeft: 15,
+    marginRight: 15,
+    height: 100,
+    borderColor: "#808080",
+    borderWidth: 2
   },
-  button_container: {
-    color: "white",
-    fontSize: 24,
-    fontWeight: "bold",
-    padding: 12,
-    textAlign: "center",
-    justifyContent: "center",
-    alignItems: "center"
-  },
-  view_container: {
-    margin: 5
-  }
+
 });
