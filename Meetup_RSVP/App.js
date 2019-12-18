@@ -1,114 +1,86 @@
-/**
- * Sample React Native App
- * https://github.com/facebook/react-native
- *
- * @format
- * @flow
- */
+//This is an example code for NavigationDrawer//
+import React, { Component } from 'react';
+//import react in our code.
+import { View, Image, TouchableOpacity } from 'react-native';
+// import all basic components
 
-import React from 'react';
-import {
-  SafeAreaView,
-  StyleSheet,
-  ScrollView,
-  View,
-  Text,
-  StatusBar,
-} from 'react-native';
-
-import {
-  Header,
-  LearnMoreLinks,
-  Colors,
-  DebugInstructions,
-  ReloadInstructions,
-} from 'react-native/Libraries/NewAppScreen';
-
-const App: () => React$Node = () => {
-  return (
-    <>
-      <StatusBar barStyle="dark-content" />
-      <SafeAreaView>
-        <ScrollView
-          contentInsetAdjustmentBehavior="automatic"
-          style={styles.scrollView}>
-          <Header />
-          {global.HermesInternal == null ? null : (
-            <View style={styles.engine}>
-              <Text style={styles.footer}>Engine: Hermes</Text>
-            </View>
-          )}
-          <View style={styles.body}>
-            <View style={styles.sectionContainer}>
-              <Text style={styles.sectionTitle}>Step One</Text>
-              <Text style={styles.sectionDescription}>
-                Edit <Text style={styles.highlight}>App.js</Text> to change this
-                screen and then come back to see your edits.
-              </Text>
-            </View>
-            <View style={styles.sectionContainer}>
-              <Text style={styles.sectionTitle}>See Your Changes</Text>
-              <Text style={styles.sectionDescription}>
-                <ReloadInstructions />
-              </Text>
-            </View>
-            <View style={styles.sectionContainer}>
-              <Text style={styles.sectionTitle}>Debug</Text>
-              <Text style={styles.sectionDescription}>
-                <DebugInstructions />
-              </Text>
-            </View>
-            <View style={styles.sectionContainer}>
-              <Text style={styles.sectionTitle}>Learn More</Text>
-              <Text style={styles.sectionDescription}>
-                Read the docs to discover what to do next:
-              </Text>
-            </View>
-            <LearnMoreLinks />
-          </View>
-        </ScrollView>
-      </SafeAreaView>
-    </>
-  );
-};
-
-const styles = StyleSheet.create({
-  scrollView: {
-    backgroundColor: Colors.lighter,
-  },
-  engine: {
-    position: 'absolute',
-    right: 0,
-  },
-  body: {
-    backgroundColor: Colors.white,
-  },
-  sectionContainer: {
-    marginTop: 32,
-    paddingHorizontal: 24,
-  },
-  sectionTitle: {
-    fontSize: 24,
-    fontWeight: '600',
-    color: Colors.black,
-  },
-  sectionDescription: {
-    marginTop: 8,
-    fontSize: 18,
-    fontWeight: '400',
-    color: Colors.dark,
-  },
-  highlight: {
-    fontWeight: '700',
-  },
-  footer: {
-    color: Colors.dark,
-    fontSize: 12,
-    fontWeight: '600',
-    padding: 4,
-    paddingRight: 12,
-    textAlign: 'right',
+import {createAppContainer} from 'react-navigation';
+import {createDrawerNavigator} from 'react-navigation-drawer';
+import {createStackNavigator} from 'react-navigation-stack';
+import registerScreen from './src/screens/RegisterScreen';
+import userListScreen from './src/screens/UserList';
+import userDetailScreen from './src/screens/UserDetail';
+ 
+class NavigationDrawerStructure extends Component {
+  //Structure for the navigatin Drawer
+  toggleDrawer = () => {
+    //Props to open/close the drawer
+    this.props.navigationProps.toggleDrawer();
+  };
+  render() {
+    return (
+      <View style={{ flexDirection: 'row' }}>
+        <TouchableOpacity onPress={this.toggleDrawer.bind(this)}>
+          {/*Donute Button Image */}
+          <Image
+            source={require('./src/images/drawer.png')}
+            style={{ width: 25, height: 25, marginLeft: 5 }}
+          />
+        </TouchableOpacity>
+      </View>
+    );
+  }
+}
+ 
+const FirstActivity_StackNavigator = createStackNavigator({
+  //All the screen from the Screen1 will be indexed here
+  First: {
+    screen: registerScreen,
+    navigationOptions: ({ navigation }) => ({
+      title: 'Demo Screen 1',
+      headerLeft: <NavigationDrawerStructure navigationProps={navigation} />,
+      headerStyle: {
+        backgroundColor: '#FF9800',
+      },
+      headerTintColor: '#fff',
+    }),
   },
 });
+ 
+const Screen2_StackNavigator = createStackNavigator({
+  //All the screen from the Screen2 will be indexed here
+  Second: {
+    screen: userListScreen,
+    navigationOptions: ({ navigation }) => ({
+      title: 'Demo Screen 2',
+      headerLeft: <NavigationDrawerStructure navigationProps={navigation} />,
+      headerStyle: {
+        backgroundColor: '#FF9800',
+      },
+      headerTintColor: '#fff',
+    }),
+  },
+});
+ 
 
-export default App;
+ 
+const RSVPDrawer = createDrawerNavigator({
+  //Drawer Optons and indexing
+  registerScreen: {
+    //Title
+    screen: FirstActivity_StackNavigator,
+    navigationOptions: {
+      drawerLabel: 'Demo Screen 1',
+    },
+  },
+  userListScreen: {
+    //Title
+    screen: Screen2_StackNavigator,
+    navigationOptions: {
+      drawerLabel: 'Demo Screen 2',
+    },
+  }
+  
+});
+ 
+export default createAppContainer(RSVPDrawer);
