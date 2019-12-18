@@ -37,27 +37,32 @@ const FirstActivity_StackNavigator = createStackNavigator({
   First: {
     screen: registerScreen,
     navigationOptions: ({ navigation }) => ({
-      title: 'Demo Screen 1',
+      title: 'Register Screen',
       headerLeft: <NavigationDrawerStructure navigationProps={navigation} />,
-      headerStyle: {
-        backgroundColor: '#FF9800',
-      },
-      headerTintColor: '#fff',
+      headerStyle: { backgroundColor: "#4B0082" },
+      headerTintColor: "#ffffff",
     }),
   },
 });
  
 const Screen2_StackNavigator = createStackNavigator({
   //All the screen from the Screen2 will be indexed here
-  Second: {
+  user: {
     screen: userListScreen,
     navigationOptions: ({ navigation }) => ({
-      title: 'Demo Screen 2',
+      title: 'User List',
       headerLeft: <NavigationDrawerStructure navigationProps={navigation} />,
-      headerStyle: {
-        backgroundColor: '#FF9800',
-      },
-      headerTintColor: '#fff',
+      headerStyle: { backgroundColor: "#4B0082" },
+      headerTintColor: "#ffffff",
+    }),
+  },
+
+  userDetail: {
+    screen: userDetailScreen,
+    navigationOptions: ({ navigation }) => ({
+      title: 'User Detail',
+      headerStyle: { backgroundColor: "#4B0082" },
+      headerTintColor: "#ffffff",
     }),
   },
 });
@@ -70,14 +75,14 @@ const RSVPDrawer = createDrawerNavigator({
     //Title
     screen: FirstActivity_StackNavigator,
     navigationOptions: {
-      drawerLabel: 'Demo Screen 1',
+      drawerLabel: 'Register',
     },
   },
   userListScreen: {
     //Title
     screen: Screen2_StackNavigator,
     navigationOptions: {
-      drawerLabel: 'Demo Screen 2',
+      drawerLabel: 'Users',
     },
   }
   

@@ -1,6 +1,6 @@
 //This is an example code to Add Search Bar Filter on Listview//
 import React, { Component } from 'react';
-import customData from './src/JsonData/MOCK_DATA,json';
+import customData from '../JsonData/MOCK_DATA.json';
 //import react in our code.
 
 import {
@@ -10,6 +10,7 @@ import {
   FlatList,
   TextInput,
   ActivityIndicator,
+  TouchableOpacity,
   Alert,
 } from 'react-native';
 //import all the components we are going to use.
@@ -62,6 +63,16 @@ export default class App extends Component {
       />
     );
   };
+
+  clickUserList = (item) => {
+
+    this.props.navigation.navigate("userDetail");
+    
+
+    // if (visibleParam != 'Visibletype') {
+    //     this.onAddButton(item);
+    // }
+  }
   render() {
     if (this.state.isLoading) {
       //Loading View while data is loading
@@ -83,13 +94,18 @@ export default class App extends Component {
         />
         <FlatList
           data={this.state.dataSource}
-          ItemSeparatorComponent={this.ListViewItemSeparator}
-          renderItem={({ item }) => (
-            <Text style={styles.textStyle}>{item.title}</Text>
-
-            
-            
-          )}
+        
+          renderItem={({ item }) => (<TouchableOpacity
+            onPress={this.clickUserList.bind(this, item)} >
+            <View style={styles.ContainerOutside}
+                key={item.id}>
+                <View>
+                    <Text>UserName: {item.first_name}</Text>
+                    <Text>Locality: {item.Locality}</Text>
+                    
+                </View>
+            </View>
+        </TouchableOpacity>)}
           enableEmptySections={true}
           style={{ marginTop: 10 }}
           keyExtractor={(item, index) => index}
@@ -98,12 +114,14 @@ export default class App extends Component {
     );
   }
 }
+
+
 const styles = StyleSheet.create({
   viewStyle: {
     justifyContent: 'center',
     flex: 1,
-    marginTop: 40,
-    padding: 16,
+    marginTop: 30,
+    padding: 10,
   },
   textStyle: {
     padding: 10,
@@ -115,4 +133,14 @@ const styles = StyleSheet.create({
     borderColor: '#009688',
     backgroundColor: '#FFFFFF',
   },
+  ContainerOutside: {
+    borderRadius: 4,
+    borderWidth: 1,
+    borderColor: "#808080",
+    marginTop: 15,
+    marginLeft: 15,
+    marginRight: 15,
+    padding: 10,
+    flexDirection: 'row'
+},
 });
