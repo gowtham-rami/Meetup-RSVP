@@ -66,7 +66,7 @@ export default class App extends Component {
 
   clickUserList = (item) => {
 
-    this.props.navigation.navigate("userDetail");
+    this.props.navigation.navigate("userDetail",{UserList: item});
     
 
     // if (visibleParam != 'Visibletype') {
